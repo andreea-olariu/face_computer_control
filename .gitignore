@@ -1,0 +1,8 @@
+.venv
+train
+data
+.idea
+yolo11n.pt
+yolov8n.pt
+.DS_Store
+__pycache__
