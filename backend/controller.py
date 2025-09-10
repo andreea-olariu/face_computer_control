@@ -91,7 +91,6 @@ class ScreenSaverAction(Action):
         super().__init__()
 
     def start(self):
-        print("Screen saver")
         ShortcutsController.run_command(['open', '-a', 'ScreenSaverEngine'])
 
 
@@ -125,7 +124,6 @@ class ElevatorMusicPlayerAction(Action):
     def __init__(self):
         super().__init__()
         self.player = Player()
-        print(self.player)
 
     def start(self):
         self.player.play(ELEVATOR_MUSIC_SOUND)

@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from constants import DIMENSION, ColorPallet
+from constants import DIMENSION, MAIN_COLOR
 
 
 class CustomFrame(tk.Frame):
@@ -14,7 +14,6 @@ class CustomFrame(tk.Frame):
             self.columnconfigure(i, weight=1)
 
     def clear_all_inside_frame(self):
-
         for widget in self.winfo_children():
             widget.destroy()
 
@@ -22,16 +21,22 @@ class CustomFrame(tk.Frame):
 class FirstEpisodeFrame(CustomFrame):
     def __init__(self, parent):
         CustomFrame.__init__(self, parent, width=DIMENSION, height=DIMENSION, rows=4, columns=1,
-                             bg=ColorPallet.MAIN_COLOR)
+                             bg=MAIN_COLOR)
 
 
 class SecondEpisodeFrame(CustomFrame):
     def __init__(self, parent):
         CustomFrame.__init__(self, parent, width=DIMENSION, height=DIMENSION, rows=5, columns=3,
-                             bg=ColorPallet.MAIN_COLOR)
+                             bg=MAIN_COLOR)
 
 
 class ThirdEpisodeFrame(CustomFrame):
     def __init__(self, parent):
-        CustomFrame.__init__(self, parent, width=DIMENSION, height=DIMENSION, rows=5, columns=3,
-                             bg=ColorPallet.MAIN_COLOR)
+        CustomFrame.__init__(self, parent, width=DIMENSION, height=DIMENSION, rows=6, columns=3,
+                             bg=MAIN_COLOR)
+
+
+class FinalEpisodeFrame(CustomFrame):
+    def __init__(self, parent):
+        CustomFrame.__init__(self, parent, width=DIMENSION, height=DIMENSION, rows=3, columns=3,
+                             bg=MAIN_COLOR)

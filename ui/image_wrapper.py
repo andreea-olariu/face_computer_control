@@ -1,33 +1,42 @@
 from PIL import Image, ImageTk
 import tkinter as tk
-from constants import DIMENSION, ColorPallet, UI_LOGO, GIF_LIMIT, ANIMATION_DELAY, UI_LOADING_GIF
+
+from constants import DIMENSION, UI_LOGO, GIF_LIMIT, ANIMATION_DELAY, UI_LOADING_GIF, MAIN_COLOR
 
 
-class CustomImage:
-    def __init__(self, master, file_path, width, height):
+class ImageWrapper:
+    def __init__(self, master, width, height, file_path, image=None):
         self.master = master
-        self.file_path = file_path
-        self.width = width
-        self.height = height
         self.label = tk.Label(self.master, border=0)
 
+        self.img = image
+        if self.img is None:
+            self.img = Image.open(file_path)
+
+        self.img = self.img.resize((width, height))
+
+    @property
     def image(self):
-        image = Image.open(self.file_path).resize((self.width, self.height))
-        image = ImageTk.PhotoImage(image=image)
-        self.label.photo = image
-        self.label.config(image=image, bg=ColorPallet.MAIN_COLOR)
+        img = ImageTk.PhotoImage(image=self.img)
+        self.label.photo = img
+        self.label.config(image=img, bg=MAIN_COLOR)
 
         return self.label
 
 
-class LogoImage(CustomImage):
-    def __init__(self, master):
-        super().__init__(master, UI_LOGO, DIMENSION, int(DIMENSION / 2))
+class LogoImageWrapper(ImageWrapper):
+    def __init__(self, parent):
+        super().__init__(parent, DIMENSION, int(DIMENSION / 2), UI_LOGO)
 
 
-class Gif(CustomImage):
+class CameraImageWrapper(ImageWrapper):
+    def __init__(self, parent, image):
+        super().__init__(master=parent, width=200, height=200, file_path='', image=image)
+
+
+class LoadingGifWrapper(ImageWrapper):
     def __init__(self, master):
-        CustomImage.__init__(self, master, UI_LOADING_GIF, DIMENSION, int(DIMENSION / 2))
+        super().__init__(master, DIMENSION, int(DIMENSION / 2), UI_LOADING_GIF)
         self.photoimage_objects = None
         self.animation_delay = ANIMATION_DELAY
         self.limit = GIF_LIMIT
@@ -45,13 +54,14 @@ class Gif(CustomImage):
         self.master.after(self.animation_delay,
                           lambda: self.animate(current_frame))
 
+    @property
     def image(self):
-        info = Image.open(self.file_path)
+        info = Image.open(UI_LOADING_GIF)
         frames = info.n_frames
 
         self.photoimage_objects = []
         for i in range(frames):
-            obj = tk.PhotoImage(file=self.file_path, format=f"gif -index {i}")
+            obj = tk.PhotoImage(file=UI_LOADING_GIF, format=f"gif -index {i}")
             self.photoimage_objects.append(obj)
 
         self.animate(0)

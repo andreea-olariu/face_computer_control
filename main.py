@@ -1,9 +1,5 @@
-from backend import Backend
-from ui import UI
+from ui.ui import UI
 
 if __name__ == "__main__":
-    backend = Backend()
-    ui = UI(controller=backend.start, backend_stop=backend.stop)
-
+    ui = UI()
     ui.start()
-    backend.prediction_thread.join()
